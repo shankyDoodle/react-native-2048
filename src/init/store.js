@@ -17,7 +17,8 @@ const blankMatrix = [
 ];
 
 
-let workingMatrix = [];
+let matrix = [];
+let score = 0;
 
 export const fillCell = (matrix) => {
   let isSet = false;
@@ -37,17 +38,25 @@ export const fillCell = (matrix) => {
 };
 
 export const initMatrix = () => {
-  workingMatrix = [];
-  workingMatrix = _.cloneDeep(blankMatrix);
+  matrix = _.cloneDeep(blankMatrix);
 
-  fillCell(workingMatrix);
-  fillCell(workingMatrix);
+  fillCell(matrix);
+  fillCell(matrix);
 
-  return workingMatrix;
+  return matrix;
 };
 
+export const getScore = () => {
+  return score;
+};
+
+export const getMatrix = () => {
+  return matrix;
+};
+
+
 export const isOver = (matrix) => {
-  return fromJS(matrix).every(x => x === 0);
+  return _.flatten(matrix).every(x => x === 0);
 };
 
 export const toLeft = (matrix, score = 0, needTrans = false) => {
@@ -86,31 +95,30 @@ export const toLeft = (matrix, score = 0, needTrans = false) => {
 };
 
 export const toRight = (matrix, score = 0, needTrans = false) => {
-  const copy = matrix;
-  matrix.forEach(
-    (line, k) => {
+  const copy = _.cloneDeep(matrix);
+  matrix.forEach((line, k) => {
       line = line.filter(x => x !== 0);
-      let i = line.size - 1;
+      let i = line.length - 1;
       while (i > 0) {
-        if (line.get(i) === line.get(i - 1)) {
-          let newValue = line.get(i) + line.get(i - 1);
-          line = line.set(i, newValue);
-          line = line.remove(i - 1);
+        if (line[i] === line[i - 1]) {
+          let newValue = line[i] + line[i - 1];
+          line[i] = newValue;
+          line.splice(i - 1, 1);
           score += newValue;
         }
 
         i--;
       }
 
-      while (line.size < MaxColumns) {
-        line = line.insert(0, 0);
+      while (line.length < MaxColumns) {
+        line.unshift(0);
       }
 
-      matrix = matrix.set(k, line);
+      matrix[k] = line;
     }
   );
-  let newMatrix = matrix.toJS();
-  if (!is(matrix, copy)) {
+  let newMatrix = _.cloneDeep(matrix);
+  if (!_.isEqual(matrix, copy)) {
     fillCell(newMatrix);
   }
 
@@ -118,9 +126,32 @@ export const toRight = (matrix, score = 0, needTrans = false) => {
     newMatrix = Matrix(newMatrix).trans();
   }
 
-  return {matrix: fromJS(newMatrix), score: score, isOver: isOver(newMatrix)};
+  return {matrix: newMatrix, score: score, isOver: isOver(newMatrix)};
 };
 
-export const toUp = (matrix, score) => toLeft(fromJS(Matrix(matrix.toJS()).trans()), score, true);
+export const toUp = (matrix, score) => toLeft(Matrix(matrix).trans(), score, true);
 
-export const toDown = (matrix, score) => toRight(fromJS(Matrix(matrix.toJS()).trans()), score, true);
+export const toDown = (matrix, score) => toRight(Matrix(matrix).trans(), score, true);
+
+export const doSwipe = (sDirection) => {
+  let oData = {};
+  switch (sDirection) {
+    case "up":
+      oData = toUp(matrix, score);
+      break;
+
+    case "down":
+      oData = toDown(matrix, score);
+      break;
+
+    case "left":
+      oData = toLeft(matrix, score);
+      break;
+
+    case "right":
+      oData = toRight(matrix, score);
+      break;
+  }
+
+  return oData;
+};

@@ -27,8 +27,6 @@ export default class GameGrid extends Component<Props> {
   constructor(props) {
     super(props);
 
-    console.log("hii matrix is", JSON.stringify(this.props.matrix));
-
     this.state = {
       matrix: this.props.matrix,
       views: []

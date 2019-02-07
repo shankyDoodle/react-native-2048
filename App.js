@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import _ from 'lodash';
 
-import {initMatrix} from "./src/init/store";
+import {initMatrix, doSwipe, getScore} from "./src/init/store";
 
 import GameGrid from './src/components/GameGrid';
 
@@ -22,7 +22,7 @@ export default class App extends Component<Props> {
     super(props);
     this.state = {
       gridSize: 4,
-      score: 0,
+      score: getScore(),
       matrix:initMatrix()
     };
 
@@ -54,7 +54,12 @@ export default class App extends Component<Props> {
   }
 
   swipeOccurred(sDirection){
-
+    let oUpdatedData = doSwipe(sDirection);
+    this.setState({
+      matrix: oUpdatedData.matrix,
+      score: oUpdatedData.score,
+      isOver: oUpdatedData.isOver
+    })
   }
 
   render() {
