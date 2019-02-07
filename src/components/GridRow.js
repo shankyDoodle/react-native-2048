@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
 
 import styleSheets from '../styles/style-game-grid';
 
@@ -11,54 +11,46 @@ export default class GridRow extends Component<Props> {
     this.cells = this.props.cells;
   }
 
-  /*shouldComponentUpdate(nextProps) {
-    if (this.props.cells !== nextProps.cells) {
-      return true;
-    }
-
-    return false;
-  }*/
-
   componentWillUpdate(nextProps) {
     this.cells = nextProps.cells;
   }
 
-  renderCellColorStyle(cell) {
+  getImageView(cell) {
     const cellColor = [styleSheets.gridCell];
 
     switch (cell) {
       case 2:
-        cellColor.push(styleSheets.cellColor2);
+        return <Image source={require('../styles/images/2.gif')} style={styleSheets.cell}/>;
         break;
       case 4:
-        cellColor.push(styleSheets.cellColor4);
+        return <Image source={require('../styles/images/4.gif')} style={styleSheets.cell}/>;
         break;
       case 8:
-        cellColor.push(styleSheets.cellColor8);
+        return <Image source={require('../styles/images/8.gif')} style={styleSheets.cell}/>;
         break;
       case 16:
-        cellColor.push(styleSheets.cellColor16);
+        return <Image source={require('../styles/images/16.gif')} style={styleSheets.cell}/>;
         break;
       case 32:
-        cellColor.push(styleSheets.cellColor32);
+        return <Image source={require('../styles/images/32.gif')} style={styleSheets.cell}/>;
         break;
       case 64:
-        cellColor.push(styleSheets.cellColor64);
+        return <Image source={require('../styles/images/64.gif')} style={styleSheets.cell}/>;
         break;
       case 128:
-        cellColor.push(styleSheets.cellColor128);
+        return <Image source={require('../styles/images/128.gif')} style={styleSheets.cell}/>;
         break;
       case 256:
-        cellColor.push(styleSheets.cellColor256);
+        return <Image source={require('../styles/images/256.gif')} style={styleSheets.cell}/>;
         break;
       case 512:
-        cellColor.push(styleSheets.cellColor512);
+        return <Image source={require('../styles/images/512.gif')} style={styleSheets.cell}/>;
         break;
       case 1024:
-        cellColor.push(styleSheets.cellColor1024);
+        return <Image source={require('../styles/images/1024.gif')} style={styleSheets.cell}/>;
         break;
       case 2048:
-        cellColor.push(styleSheets.cellColor2048);
+        return <Image source={require('../styles/images/2048.gif')} style={styleSheets.cell}/>;
         break;
       default:
         break;
@@ -69,13 +61,15 @@ export default class GridRow extends Component<Props> {
 
 
   render() {
+    let _this = this;
     return (
       <View style={styleSheets.gridRow}>
         {
           this.cells.map((cell, i) => {
             return (
               <View key={i} style={styleSheets.gridCell}>
-                <Text>{cell}</Text>
+                {cell === 0 ? <Text style={styleSheets.cell}>{cell}</Text> :
+                  _this.getImageView(cell)}
               </View>)
           })
         }
