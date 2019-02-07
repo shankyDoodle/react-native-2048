@@ -74,7 +74,7 @@ export default class GridRow extends Component<Props> {
         {
           this.cells.map((cell, i) => {
             return (
-              <View key={i} style={this.renderCellColorStyle(cell)}>
+              <View key={i} style={styleSheets.gridCell}>
                 <Text>{cell}</Text>
               </View>)
           })

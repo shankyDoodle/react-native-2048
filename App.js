@@ -6,13 +6,9 @@ import {
   Image,
   TouchableHighlight
 } from 'react-native';
+import _ from 'lodash';
 
-let blankMatrix = [
-  [0, 0, 0, 0],
-  [0, 0, 0, 0],
-  [0, 0, 0, 0],
-  [0, 0, 0, 0]
-];
+import {initMatrix} from "./src/init/store";
 
 import GameGrid from './src/components/GameGrid';
 
@@ -25,16 +21,19 @@ export default class App extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      gridSize: 3,
-      score: 0
+      gridSize: 4,
+      score: 0,
+      matrix:initMatrix()
     };
 
     this.handleResetButtonClicked = this.handleResetButtonClicked.bind(this);
+    this.swipeOccurred = this.swipeOccurred.bind(this);
   }
 
   handleResetButtonClicked() {
-    console.log("fjhfkdfgdfg");
-    let state = this.state;
+    this.setState({
+      matrix:initMatrix()
+    })
   }
 
   getHeaderView() {
@@ -54,6 +53,10 @@ export default class App extends Component<Props> {
     );
   }
 
+  swipeOccurred(sDirection){
+
+  }
+
   render() {
 
 
@@ -62,7 +65,11 @@ export default class App extends Component<Props> {
     return (
       <View style={styles.container}>
         {oHeaderView}
-        <GameGrid matrix={blankMatrix}/>
+        <GameGrid
+          matrix={this.state.matrix}
+          key={_.random(1000)}
+          fSwipeOccurred={this.swipeOccurred}
+        />
       </View>
     );
   }

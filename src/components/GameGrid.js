@@ -8,15 +8,20 @@ import {
   TouchableHighlight,
   LayoutAnimation,
   Platform,
-  UIManager
+  UIManager,
+  FlatList
 } from 'react-native';
+import _ from 'lodash';
 
 
 import GridRow from './GridRow';
 
 import styles from '../styles/style-game-grid';
 
-type Props = {};
+type Props = {
+  matrix: '2D array',
+  fSwipeOccurred: 'function'
+};
 export default class GameGrid extends Component<Props> {
 
   constructor(props) {
@@ -29,14 +34,26 @@ export default class GameGrid extends Component<Props> {
       views: []
     };
 
-    this.onSwipeUp = this.props.onSwipeUp;
-    this.onSwipeDown = this.props.onSwipeDown;
-    this.onSwipeLeft = this.props.onSwipeLeft;
-    this.onSwipeRight = this.props.onSwipeRight;
+    this.onSwipeUp = this.onSwipeUp.bind(this);
+    this.onSwipeDown = this.onSwipeDown.bind(this);
+    this.onSwipeLeft = this.onSwipeLeft.bind(this);
+    this.onSwipeRight = this.onSwipeRight.bind(this);
   }
 
-  handleResetButtonClicked() {
-    let state = this.state;
+  onSwipeUp() {
+    this.props.fSwipeOccurred("up");
+  }
+
+  onSwipeDown() {
+    this.props.fSwipeOccurred("down");
+  }
+
+  onSwipeLeft() {
+    this.props.fSwipeOccurred("left");
+  }
+
+  onSwipeRight() {
+    this.props.fSwipeOccurred("right");
   }
 
   render() {
@@ -56,6 +73,7 @@ export default class GameGrid extends Component<Props> {
         onSwipeLeft={(gestureState) => this.onSwipeLeft(gestureState)}
         onSwipeRight={(gestureState) => this.onSwipeRight(gestureState)}
         config={config}
+        style={styles.gestureRecognizer}
       >
         <View style={styles.gridContainer}>
             {this.state.views}
