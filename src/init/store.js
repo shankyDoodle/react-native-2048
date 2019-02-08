@@ -1,7 +1,5 @@
 import _ from 'lodash';
 import Matrix from 'matrix-js';
-import {fromJS, is} from 'immutable';
-
 
 const initValue = [2, 4];
 
@@ -60,30 +58,30 @@ export const isOver = (matrix) => {
 };
 
 export const toLeft = (matrix, score = 0, needTrans = false) => {
-  const copy = matrix;
+  const copy = _.cloneDeep(matrix);
   matrix.forEach(
     (line, k) => {
       let i = 0;
       line = line.filter(x => x !== 0);
-      while (i < line.size) {
-        if (line.get(i) === line.get(i + 1)) {
-          let newValue = line.get(i) + line.get(i + 1);
-          line = line.set(i, newValue);
-          line = line.remove(i + 1);
+      while (i < line.length) {
+        if (line[i] === line[i + 1]) {
+          let newValue = line[i] + line[i + 1];
+          line[i] = newValue;
+          line.splice(i + 1, 1);
           score += newValue;
         }
         i++;
       }
 
-      while (line.size < MaxColumns) {
+      while (line.length < MaxColumns) {
         line = line.push(0);
       }
 
-      matrix = matrix.set(k, line);
+      matrix[k] = line;
     }
   );
-  let newMatrix = matrix.toJS();
-  if (!is(matrix, copy)) {
+  let newMatrix = _.cloneDeep(matrix);
+  if (!_.isEqual(matrix, copy)) {
     fillCell(newMatrix);
   }
 
@@ -91,7 +89,7 @@ export const toLeft = (matrix, score = 0, needTrans = false) => {
     newMatrix = Matrix(newMatrix).trans();
   }
 
-  return {matrix: fromJS(newMatrix), score: score, isOver: isOver(newMatrix)};
+  return {matrix: newMatrix, score: score, isOver: isOver(newMatrix)};
 };
 
 export const toRight = (matrix, score = 0, needTrans = false) => {
@@ -152,6 +150,7 @@ export const doSwipe = (sDirection) => {
       oData = toRight(matrix, score);
       break;
   }
-
+  matrix = oData.matrix;
+  score = oData.score;
   return oData;
 };

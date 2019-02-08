@@ -1,4 +1,7 @@
 {
   "name": "two048",
-  "displayName": "two048"
+  "displayName": "two048",
+  "expo": {
+    "sdkVersion": "32.0.0"
+  }
 }

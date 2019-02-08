@@ -7,6 +7,8 @@ import {
   TouchableHighlight
 } from 'react-native';
 import _ from 'lodash';
+import Matrix from 'matrix-js';
+
 
 import {initMatrix, doSwipe, getScore} from "./src/init/store";
 
@@ -66,12 +68,12 @@ export default class App extends Component<Props> {
 
 
     let oHeaderView = this.getHeaderView();
-
+    let aVisualMatrix = Matrix(this.state.matrix).trans();
     return (
       <View style={styles.container}>
         {oHeaderView}
         <GameGrid
-          matrix={this.state.matrix}
+          matrix={aVisualMatrix}
           key={_.random(1000)}
           fSwipeOccurred={this.swipeOccurred}
         />
