@@ -14,7 +14,6 @@ const blankMatrix = [
   [0, 0, 0, 0]
 ];
 
-
 let matrix = [];
 let score = 0;
 
@@ -74,7 +73,7 @@ export const toLeft = (matrix, score = 0, needTrans = false) => {
       }
 
       while (line.length < MaxColumns) {
-        line = line.push(0);
+        line.push(0);
       }
 
       matrix[k] = line;

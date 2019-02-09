@@ -1,7 +1,7 @@
 import {StyleSheet, Dimensions} from 'react-native';
 
 export default StyleSheet.create({
-  gestureRecognizer:{
+  gridContainer: {
     width: 320,
     height: 100,
     borderRadius: 3,
@@ -10,15 +10,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
     flexWrap: 'wrap',
   },
-  gridContainer: {
-    width: 320,
-    height: 100,
-    borderRadius: 3,
-    flex: 1,
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-  },
-  wrappingRow:{
+  wrappingRow: {
     flex: 1,
     flexDirection: 'row',
     width: 320,
@@ -34,11 +26,16 @@ export default StyleSheet.create({
     marginTop: 10,
     borderRadius: 10
   },
-  cell: {
+  cellWithoutImage: {
     width: 75,
     height: 75,
     borderRadius: 10,
     color: "transparent"
+  },
+  cell: {
+    width: 75,
+    height: 75,
+    borderRadius: 10
   }
 });
 

@@ -1,18 +1,10 @@
 import React, {Component} from 'react';
-import GestureRecognizer from 'react-native-swipe-gestures';
 import {
-  StyleSheet,
-  Text,
   View,
-  Image,
-  TouchableHighlight,
-  LayoutAnimation,
-  Platform,
-  UIManager,
-  FlatList
+  PanResponder
 } from 'react-native';
-import _ from 'lodash';
 
+import type {PanResponderInstance, GestureState} from 'PanResponder';
 
 import GridRow from './GridRow';
 
@@ -32,51 +24,61 @@ export default class GameGrid extends Component<Props> {
       views: []
     };
 
-    this.onSwipeUp = this.onSwipeUp.bind(this);
-    this.onSwipeDown = this.onSwipeDown.bind(this);
-    this.onSwipeLeft = this.onSwipeLeft.bind(this);
-    this.onSwipeRight = this.onSwipeRight.bind(this);
   }
 
-  onSwipeUp() {
-    this.props.fSwipeOccurred("up");
-  }
+  _handleStartShouldSetPanResponder = (
+    event: PressEvent,
+    gestureState: GestureState,
+  ): boolean => {
+    // Should we become active when the user presses down on the circle?
+    return true;
+  };
 
-  onSwipeDown() {
-    this.props.fSwipeOccurred("down");
-  }
+  _handleMoveShouldSetPanResponder = (
+    event: PressEvent,
+    gestureState: GestureState,
+  ): boolean => {
+    // Should we become active when the user moves a touch over the circle?
+    return true;
+  };
 
-  onSwipeLeft() {
-    this.props.fSwipeOccurred("left");
-  }
 
-  onSwipeRight() {
-    this.props.fSwipeOccurred("right");
+  _panResponder: PanResponderInstance = PanResponder.create({
+    onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
+    onMoveShouldSetPanResponder: this._handleMoveShouldSetPanResponder,
+    onPanResponderRelease: this.onSwipe.bind(this),
+  });
+
+  onSwipe(evt, gestureState) {
+    console.log("your direction is : ", evt, " and ", gestureState.dx, " / ", gestureState.dy);
+    let sDirection = null;
+    let deltaX = gestureState.dx;
+    let deltaY = gestureState.dy;
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+      // horizontal movement
+      sDirection = deltaX >= 0 ? "right" : "left";
+    } else {
+      if (Math.abs(deltaY) > 10) {
+        // vertical movement
+        sDirection = deltaY >= 0 ? "down" : "up";
+      }
+
+    }
+    if (sDirection) {
+      this.props.fSwipeOccurred(sDirection);
+    }
   }
 
   render() {
-    const config = {
-      velocityThreshold: 0.3,
-      directionalOffsetThreshold: 60
-    };
 
     for (let i = 0; i < 4; i++) {
       this.state.views.push(<GridRow key={i} style={styles.wrappingRow} cells={this.state.matrix[i]}/>)
     }
 
     return (
-      <GestureRecognizer
-        onSwipeUp={(gestureState) => this.onSwipeUp(gestureState)}
-        onSwipeDown={(gestureState) => this.onSwipeDown(gestureState)}
-        onSwipeLeft={(gestureState) => this.onSwipeLeft(gestureState)}
-        onSwipeRight={(gestureState) => this.onSwipeRight(gestureState)}
-        config={config}
-        style={styles.gestureRecognizer}
-      >
-        <View style={styles.gridContainer}>
-            {this.state.views}
-        </View>
-      </GestureRecognizer>
+      <View style={styles.gridContainer} {...this._panResponder.panHandlers}>
+        {this.state.views}
+      </View>
     );
   }
 }

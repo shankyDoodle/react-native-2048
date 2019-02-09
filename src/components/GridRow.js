@@ -68,7 +68,7 @@ export default class GridRow extends Component<Props> {
           this.cells.map((cell, i) => {
             return (
               <View key={i} style={styleSheets.gridCell}>
-                {cell === 0 ? <Text style={styleSheets.cell}>{cell}</Text> :
+                {cell === 0 ? <Text style={styleSheets.cellWithoutImage}>{cell}</Text> :
                   _this.getImageView(cell)}
               </View>)
           })
