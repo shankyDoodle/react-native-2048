@@ -8,6 +8,7 @@ export default {
   headerPanelContainer: {
     height: "50%",
     width: "100%",
+    position: 'relative'
   },
 
   headerLabelImage: {
@@ -40,6 +41,16 @@ export default {
     color: '#ffffff80',
     fontSize: 15,
     fontWeight: "bold"
+  },
+
+  ruleText:{
+    position: 'absolute',
+    right: 25,
+    bottom: 20,
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#ffffff80',
+
   },
 
   scoreBoardContainer: {

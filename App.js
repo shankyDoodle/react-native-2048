@@ -51,6 +51,7 @@ export default class App extends Component<Props> {
             <Text style={styles.scoreDynamic}>{this.state.score}</Text>
           </View>
         </View>
+        <Text style={styles.ruleText}>Add same numbers to form 2048</Text>
       </View>
     );
   }
