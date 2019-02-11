@@ -9,6 +9,7 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     flexWrap: 'wrap',
+    position: 'relative'
   },
   wrappingRow: {
     flex: 1,
@@ -36,6 +37,39 @@ export default StyleSheet.create({
     width: 75,
     height: 75,
     borderRadius: 10
+  },
+  overlay:{
+    width: 330,
+    height: 330,
+    borderRadius: 10,
+    flex: 1,
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    position: 'absolute',
+    left: 0,
+    top: 10,
+    opacity: 0.8,
+    backgroundColor: '#3d2963',
+
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  overlayText:{
+    color: "#FFFFFF",
+    opacity: 1,
+    fontSize: 30,
+    fontWeight: 'bold',
+
+    width: 330,
+    height: 330,
+    borderRadius: 10,
+    flex: 1,
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    position: 'absolute',
+    left: 90,
+    top: 150,
+
   }
 });
 

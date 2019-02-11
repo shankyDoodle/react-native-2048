@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {
   View,
-  PanResponder
+  PanResponder,
+  Text
 } from 'react-native';
 
 import type {PanResponderInstance, GestureState} from 'PanResponder';
@@ -50,6 +51,9 @@ export default class GameGrid extends Component<Props> {
   });
 
   onSwipe(evt, gestureState) {
+    if(this.props.gameResult !== 0){// showWin
+      return;
+    }
     console.log("your direction is : ", evt, " and ", gestureState.dx, " / ", gestureState.dy);
     let sDirection = null;
     let deltaX = gestureState.dx;
@@ -75,9 +79,18 @@ export default class GameGrid extends Component<Props> {
       this.state.views.push(<GridRow key={i} style={styles.wrappingRow} cells={this.state.matrix[i]}/>)
     }
 
+    let oOverlayDom = null;
+    if(this.props.gameResult !== 0){
+      let sText = (this.props.gameResult === 1) ? "You've Won!!" : "Game Over!!!";
+      oOverlayDom = [
+        <View style={styles.overlay} key={1} />,
+        <Text style={styles.overlayText} key={2}>{sText}</Text>];
+    }
+
     return (
       <View style={styles.gridContainer} {...this._panResponder.panHandlers}>
         {this.state.views}
+        {oOverlayDom}
       </View>
     );
   }

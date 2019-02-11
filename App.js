@@ -23,9 +23,9 @@ export default class App extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      gridSize: 4,
       score: getScore(),
-      matrix:initMatrix()
+      matrix:initMatrix(),
+      gameResult: 0 //0: neutral, 1:win, -1:loss
     };
 
     this.handleResetButtonClicked = this.handleResetButtonClicked.bind(this);
@@ -60,7 +60,7 @@ export default class App extends Component<Props> {
     this.setState({
       matrix: oUpdatedData.matrix,
       score: oUpdatedData.score,
-      isOver: oUpdatedData.isOver
+      gameResult: oUpdatedData.isOver
     })
   }
 
@@ -73,8 +73,9 @@ export default class App extends Component<Props> {
       <View style={styles.container}>
         {oHeaderView}
         <GameGrid
-          matrix={aVisualMatrix}
           key={_.random(1000)}
+          matrix={aVisualMatrix}
+          gameResult={this.state.gameResult}
           fSwipeOccurred={this.swipeOccurred}
         />
       </View>

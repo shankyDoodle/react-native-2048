@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 13283,
+  "expoServerNgrokUrl": "https://zz-py6.anonymous.react-native-2048.exp.direct",
+  "packagerNgrokUrl": "https://packager.zz-py6.anonymous.react-native-2048.exp.direct",
+  "ngrokPid": 13292
 }

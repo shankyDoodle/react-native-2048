@@ -51,9 +51,20 @@ export const getMatrix = () => {
   return matrix;
 };
 
+export const isOver = function (matrix) {
+  let ret = -1;
+  for (let x = 0; x < 4; x++) {
+    for (let y = 0; y < 4; y++) {
+      if (matrix[x][y] === 2048)
+        return 1;
+      if (matrix[x][y] == 0 ||
+        ((x + 1 < 4) && (matrix[x][y] === matrix[x + 1][y])) ||
+        ((y + 1 < 4) && (matrix[x][y] === matrix[x][y + 1])))
+        ret = 0;
+    }
+  }
 
-export const isOver = (matrix) => {
-  return _.flatten(matrix).every(x => x === 0);
+  return ret;
 };
 
 export const toLeft = (matrix, score = 0, needTrans = false) => {
