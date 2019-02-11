@@ -23,7 +23,7 @@ export default class App extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      score: getScore(),
+      score: 0,
       matrix:initMatrix(),
       gameResult: 0 //0: neutral, 1:win, -1:loss
     };
@@ -34,7 +34,9 @@ export default class App extends Component<Props> {
 
   handleResetButtonClicked() {
     this.setState({
-      matrix:initMatrix()
+      score: 0,
+      matrix:initMatrix(),
+      gameResult: 0 //0: neutral, 1:win, -1:loss
     })
   }
 
